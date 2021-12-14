@@ -1,5 +1,5 @@
 # Cryptocurrency Project
-C++ cryptocurrency/block-chain. Mostly basic blockchain for now. New Additions are in the work(see below).<br>
+C++ cryptocurrency/block-chain. Mostly basic blockchain for now. New Additions are in the works(see below).<br>
 *This file details what this repository includes, and what is planned for the future.*
 
 ### Inclusions
