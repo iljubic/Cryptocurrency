@@ -1,28 +1,26 @@
 #pragma once
 
-#include "Wallet.h"
-#include "TransactionData.h"
 #include <vector>
-#include <ctime>
 #include <string>
+#include <ctime>
+#include "Signature.h"
+#include "SHA512.h"
 
 
-class Block {							              	// Block Class
+class Block {
 private:
-	int index;							               	// Keeps count of the index of the block in the blockchain
+	int index;						// The index of the block in the shard it is in
+	double shardIndex;				// The index of the shard the block is in
+	Signature signature;			// The transaction signature
+	std::string hash;				// The block hash
+	std::string prevHash;			// The previous blocks hash
+	std::string shardHash;			// The hash of the shard the block is in
 	
-	std::size_t blockHash;			        		// The hash for this block
-	std::size_t prevBlockHash;		      		// The previous blocks hash
-	TransactionData data;				      	    // The TransactionData stored in the block
-  
-	std::size_t generateBlockHash();	    	// Block Hash Generator
+	std::string generateHash();		// Hash Generator Function
 public:
-	Block(int i, TransactionData d, std::size_t pBH);
+	Block(int i, int sI, Signature s, std::string pH, std::string sH);
 
-	bool isHashValid();						          // Block Validator
-
-	int getIndex();							            // Block index getter
-	std::size_t getBlockHash();			      	// Block hash getter
-	std::size_t getPrevBlockHash();	    		// Previous block hash getter
-	TransactionData getTransactionData(); 	// TransactionData getter
+	// Getters
+	Signature getSignature();		// Gets the block signature
+	std::string getHash();			// Gets the block hash
 };
