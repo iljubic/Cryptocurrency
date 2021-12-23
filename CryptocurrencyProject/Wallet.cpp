@@ -1,48 +1,36 @@
 #include "Wallet.h"
 
 
-Wallet::Wallet(int i, time_t t, std::size_t pAH)
-{
-	index = i;
-	prevAddressHash = pAH;
-	birthTime = t;
+Wallet::Wallet(time_t t, std::string user, std::string pass) {
 
-	addressHash = generateAddressHash();
 }
 
-std::size_t Wallet::generateAddressHash()
-{
-	// Creating hashes to be added into the finalHash
-	std::hash<std::string> hash1;
-	std::hash<std::size_t> hash2;
-	std::hash<std::size_t> finalHash;
-	std::string toHash =
-		std::to_string(index) +
-		std::to_string(birthTime);
-
-	return finalHash(hash1(toHash) + hash2(prevAddressHash));	// Combining all data into one hash and returning it
+void Wallet::generatePrivateKey() {	// Private Key is generated from password, timestamp and username
+	SHA512 sha;
+	privateKey = sha.hash(username + password + std::to_string(timestamp));
 }
 
-bool Wallet::isHashValid() {
-	return generateAddressHash() == addressHash;	// Returns true if the generateAddressHash() output is the same as the addressHash
+void Wallet::generatePublicKey() {	// Public Key is generated from the private key combined with readily available public data on the Blockchain
+	unsigned long long int x;
+	
+	x = static_cast<int>(pow(static_cast<double>(generator), stoi(privateKey))); // generator^privateKey
+	publicKey = x % primeModulus;
 }
 
+void Wallet::sendTransaction(double amount, std::size_t receiverAddress) {
 
-// Getters
-int Wallet::getIndex() {
-	return index;
+
+	transactionCounter++;
 }
 
-std::size_t Wallet::getAddressHash()
-{
-	return addressHash;
+int Wallet::getTransactionCounter() {
+	return transactionCounter;
 }
 
-std::size_t Wallet::getPrevAddressHash()
-{
-	return prevAddressHash;
+int Wallet::getValidationCounter() {
+	return validationCounter;
 }
 
-time_t Wallet::getBirthTime() {
-	return birthTime;
+std::string Wallet::getPublicKey() {
+	return publicKey;
 }
